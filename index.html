@@ -247,6 +247,7 @@
             width: 180px;
             transform: rotate(-2deg);
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
 
         .polaroid:nth-child(even) { transform: rotate(3deg); }
@@ -269,6 +270,34 @@
             font-family: 'Playfair Display', cursive, serif;
             font-size: 0.85rem;
             color: #795548;
+        }
+
+        /* Fullscreen Image Zoom Modal */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .image-modal img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
 
         footer {
@@ -313,20 +342,25 @@
             <a href="letter.html" class="btn-letter">Open Your Personal Letter 💌</a>
         </div>
 
-        <!-- Memories Gallery -->
+        <!-- Memories Gallery (Clickable Polaroids) -->
         <div class="card">
             <h2 class="gallery-title">A Few of My Favorite Moments</h2>
             <div class="polaroids">
-                <div class="polaroid"><img src="images/photo4.jpg" alt="4"><span>My favorite smile 🤍</span></div>
-                <div class="polaroid"><img src="images/photo5.jpg" alt="5"><span>Unforgettable</span></div>
-                <div class="polaroid"><img src="images/photo6.jpg" alt="6"><span>Pure happiness</span></div>
-                <div class="polaroid"><img src="images/photo8.jpg" alt="8"><span>So precious</span></div>
-                <div class="polaroid"><img src="images/photo9.jpg" alt="9"><span>Always you</span></div>
-                <div class="polaroid"><img src="images/photo10.jpg" alt="10"><span>My whole world</span></div>
+                <div class="polaroid" onclick="openModal('images/photo4.jpg')"><img src="images/photo4.jpg" alt="4"><span>My favorite smile 🤍</span></div>
+                <div class="polaroid" onclick="openModal('images/photo5.jpg')"><img src="images/photo5.jpg" alt="5"><span>Unforgettable</span></div>
+                <div class="polaroid" onclick="openModal('images/photo6.jpg')"><img src="images/photo6.jpg" alt="6"><span>Pure happiness</span></div>
+                <div class="polaroid" onclick="openModal('images/photo8.jpg')"><img src="images/photo8.jpg" alt="8"><span>So precious</span></div>
+                <div class="polaroid" onclick="openModal('images/photo9.jpg')"><img src="images/photo9.jpg" alt="9"><span>Always you</span></div>
+                <div class="polaroid" onclick="openModal('images/photo10.jpg')"><img src="images/photo10.jpg" alt="10"><span>My whole world</span></div>
             </div>
         </div>
 
         <footer>Made with all my love, just for you.</footer>
+    </div>
+
+    <!-- Fullscreen Modal Container -->
+    <div class="image-modal" id="imageModal" onclick="closeModal()">
+        <img id="modalImg" src="" alt="Zoomed Memory">
     </div>
 
     <script>
@@ -347,7 +381,6 @@
                     lockOverlay.style.display = 'none';
                     mainContainer.style.display = 'block';
                     
-                    // Automatically play song and animate bars upon unlock!
                     song.play().then(() => {
                         playBtn.textContent = '⏸';
                         audioBars.classList.add('playing');
@@ -378,6 +411,19 @@
                 playBtn.textContent = '▶';
                 audioBars.classList.remove('playing');
             }
+        }
+
+        // Image Zoom Modal Functions
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            modal.style.display = 'flex';
+            modalImg.src = imageSrc;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
         }
     </script>
 </body>
